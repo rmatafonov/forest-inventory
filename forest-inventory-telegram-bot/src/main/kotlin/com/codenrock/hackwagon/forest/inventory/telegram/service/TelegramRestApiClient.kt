@@ -5,6 +5,7 @@ import com.codenrock.hackwagon.forest.inventory.telegram.domain.getfile.GetFileR
 import com.codenrock.hackwagon.forest.inventory.telegram.domain.getfile.RequestParams
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -18,6 +19,7 @@ import java.net.http.HttpResponse
 
 @Service
 class TelegramRestApiClient(
+    @Value("com.codenrock.hackwagon.forest.inventory.telegram.api.base") private val telegramApiBase: String,
     @BotToken private val botToken: String,
     private val objectMapper: ObjectMapper,
     private val httpClient: HttpClient
@@ -28,7 +30,7 @@ class TelegramRestApiClient(
         val filePath = getVoiceFilePathForDownload(fileId)
         filePath?.let {
             val request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.telegram.org/file/bot${botToken}/${it}"))
+                .uri(URI.create("${telegramApiBase}/file/bot${botToken}/${it}"))
                 .GET()
                 .build()
 
@@ -46,7 +48,7 @@ class TelegramRestApiClient(
         val input = objectMapper.writeValueAsString(RequestParams(fileId))
 
         val request = HttpRequest.newBuilder()
-            .uri(URI.create("https://api.telegram.org/bot${botToken}/getFile"))
+            .uri(URI.create("${telegramApiBase}/bot${botToken}/getFile"))
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .method(
                 HttpMethod.GET.name(),
