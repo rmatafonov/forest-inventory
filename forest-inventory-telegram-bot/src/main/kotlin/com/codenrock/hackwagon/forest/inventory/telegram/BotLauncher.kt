@@ -1,9 +1,6 @@
 package com.codenrock.hackwagon.forest.inventory.telegram
 
-import com.codenrock.hackwagon.forest.inventory.telegram.annotation.BotToken
-import com.codenrock.hackwagon.forest.inventory.telegram.annotation.BotWelcomeMessage
-import com.codenrock.hackwagon.forest.inventory.telegram.annotation.YCFolderId
-import com.codenrock.hackwagon.forest.inventory.telegram.annotation.YCToken
+import com.codenrock.hackwagon.forest.inventory.telegram.annotation.*
 import com.codenrock.hackwagon.forest.inventory.telegram.bot.Bot
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -13,6 +10,8 @@ import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.ClassPathResource
 import org.telegram.telegrambots.meta.TelegramBotsApi
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession
 import java.net.http.HttpClient
 import java.nio.charset.StandardCharsets
@@ -58,4 +57,14 @@ class BotLauncher {
         ClassPathResource("welcomeMessage.txt").file,
         StandardCharsets.UTF_8
     )
+
+    @Bean
+    @VoiceRecognitionInlineKeyboardMarkup
+    fun voiceRecognitionResultKeyboardMarkup(): InlineKeyboardMarkup = InlineKeyboardMarkup.builder()
+        .keyboardRow(
+            listOf(
+                InlineKeyboardButton.builder().text("Сохранить").callbackData("save_recognized_text").build()
+            )
+        )
+        .build()
 }

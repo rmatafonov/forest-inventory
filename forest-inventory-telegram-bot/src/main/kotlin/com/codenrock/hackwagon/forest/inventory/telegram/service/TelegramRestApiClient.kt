@@ -4,6 +4,7 @@ import com.codenrock.hackwagon.forest.inventory.telegram.annotation.BotToken
 import com.codenrock.hackwagon.forest.inventory.telegram.domain.getfile.GetFileResponseDto
 import com.codenrock.hackwagon.forest.inventory.telegram.domain.getfile.RequestParams
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -21,7 +22,27 @@ class TelegramRestApiClient(
     private val objectMapper: ObjectMapper,
     private val httpClient: HttpClient
 ) {
-    fun getVoiceFilePathForDownload(fileId: String): String? {
+    private val log = LoggerFactory.getLogger(TelegramRestApiClient::class.java)
+
+    fun downloadFile(fileId: String): InputStream? {
+        val filePath = getVoiceFilePathForDownload(fileId)
+        filePath?.let {
+            val request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.telegram.org/file/bot${botToken}/${it}"))
+                .GET()
+                .build()
+
+            val response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream())
+
+            if (response.statusCode() == HttpStatus.OK.value()) {
+                return response.body()
+            }
+        } ?: log.error("Cannot find file path")
+
+        return null
+    }
+
+    private fun getVoiceFilePathForDownload(fileId: String): String? {
         val input = objectMapper.writeValueAsString(RequestParams(fileId))
 
         val request = HttpRequest.newBuilder()
@@ -40,21 +61,6 @@ class TelegramRestApiClient(
             if (responseDto.ok) {
                 return responseDto.result.filePath
             }
-        }
-
-        return null
-    }
-
-    fun downloadFile(filePath: String): InputStream? {
-        val request = HttpRequest.newBuilder()
-            .uri(URI.create("https://api.telegram.org/file/bot${botToken}/${filePath}"))
-            .GET()
-            .build()
-
-        val response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream())
-
-        if (response.statusCode() == HttpStatus.OK.value()) {
-            return response.body()
         }
 
         return null
