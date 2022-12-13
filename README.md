@@ -14,3 +14,12 @@
 * Type command "/start" as usual Telegram Bot
 * Send a voice message - the Bot will reply with recognized text
 * Enjoy!
+
+### Stack
+* Kotlin
+* Spring boot
+* Python
+* Postgres
+* Yandex Cloud
+* Telegram API
+* Docker
