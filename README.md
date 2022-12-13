@@ -19,7 +19,8 @@
 * Kotlin
 * Spring boot
 * Python
+* Pandas
 * Postgres
 * Yandex Cloud
-* Telegram API
+* Telegram Bot API
 * Docker
