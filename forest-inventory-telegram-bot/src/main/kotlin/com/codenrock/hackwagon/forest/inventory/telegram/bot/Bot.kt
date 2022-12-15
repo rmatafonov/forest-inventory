@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 class Bot(
     @BotToken private val botToken: String,
     private val updateProcessors: List<BotUpdateProcessor>,
-    @Value("com.codenrock.hackwagon.forest.inventory.telegram.bot.name")
+    @Value("\${com.codenrock.hackwagon.forest.inventory.telegram.bot.name}")
     private val botName: String
 ) : TelegramLongPollingBot() {
     private val log = LoggerFactory.getLogger(Bot::class.java)

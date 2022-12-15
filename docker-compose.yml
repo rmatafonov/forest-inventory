@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+  data-analysis:
+    image: cr.yandex/crp7ldonigcksse5vq62/forest-inventory-data-analysis:0.0.1
+    env_file:
+      - .env
+    ports:
+      - "8081:8081"
+    networks:
+      - awesome
+  telegram-bot:
+    image: cr.yandex/crp7ldonigcksse5vq62/forest-inventory-telegram-bot:0.0.1
+    env_file:
+      - .env
+    depends_on:
+      - data-analysis
+      - postgres
+    networks:
+      - awesome
+    command: wait-for.sh postgres:5432 -- java -jar /usr/local/lib/app.jar
+  postgres:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    volumes:
+      - forest-inventory-postgres:/var/lib/postgresql/data
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - awesome
+  pgadmin:
+    image: dpage/pgadmin4:4.18
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8080:80"
+    volumes:
+      - forest-inventory-pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - awesome
+
+volumes:
+    forest-inventory-postgres:
+    forest-inventory-pgadmin:
+
+networks:
+    awesome:
+        driver: bridge

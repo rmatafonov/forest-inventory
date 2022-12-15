@@ -21,7 +21,7 @@ import java.net.http.HttpResponse
 class YandexCloudSpeechRecognitionRestApiClient(
     @YCToken private val ycToken: String,
     @YCFolderId private val ycFolderId: String,
-    @Value("com.codenrock.hackwagon.forest.inventory.yandex.ai.voice.recognize.uri") private val ycVoiceRecognizeUri: String,
+    @Value("\${com.codenrock.hackwagon.forest.inventory.yandex.ai.voice.recognize.uri}") private val ycVoiceRecognizeUri: String,
     private val objectMapper: ObjectMapper,
     private val httpClient: HttpClient
 ) {

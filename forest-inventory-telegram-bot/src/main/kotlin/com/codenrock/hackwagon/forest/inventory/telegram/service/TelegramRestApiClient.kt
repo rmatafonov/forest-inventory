@@ -19,7 +19,7 @@ import java.net.http.HttpResponse
 
 @Service
 class TelegramRestApiClient(
-    @Value("com.codenrock.hackwagon.forest.inventory.telegram.api.base") private val telegramApiBase: String,
+    @Value("\${com.codenrock.hackwagon.forest.inventory.telegram.api.base}") private val telegramApiBase: String,
     @BotToken private val botToken: String,
     private val objectMapper: ObjectMapper,
     private val httpClient: HttpClient

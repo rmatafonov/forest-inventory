@@ -27,4 +27,4 @@ hs_err_pid*
 
 # Python
 **/venv
-**/logs
+forest-inventory-data-analysis/src/logs

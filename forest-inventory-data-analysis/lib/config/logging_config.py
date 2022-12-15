@@ -1,11 +1,15 @@
 import logging
 import logging.handlers
+import os
 import sys
 
 
 class LoggingConfig:
     @staticmethod
     def init(log_level: int):
+        if not os.path.exists("logs"):
+            os.makedirs("logs")
+
         root = logging.getLogger()
         root.setLevel(log_level)
 

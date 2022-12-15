@@ -4,7 +4,7 @@ import com.codenrock.hackwagon.forest.inventory.telegram.annotation.*
 import com.codenrock.hackwagon.forest.inventory.telegram.bot.Bot
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import org.apache.commons.io.FileUtils
+import org.apache.commons.io.IOUtils
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -53,8 +53,8 @@ class BotLauncher {
 
     @Bean
     @BotWelcomeMessage
-    fun welcomeMessage() = FileUtils.readFileToString(
-        ClassPathResource("welcomeMessage.txt").file,
+    fun welcomeMessage() = IOUtils.toString(
+        ClassPathResource("welcomeMessage.txt").inputStream,
         StandardCharsets.UTF_8
     )
 

@@ -4,9 +4,9 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
 
-from api.data_analysis_api import DataAnalysisApi
-from config import config
-from config.logging_config import LoggingConfig
+from lib.api.data_analysis_api import DataAnalysisApi
+from lib.config import config
+from lib.config.logging_config import LoggingConfig
 
 LoggingConfig.init(logging.DEBUG)
 

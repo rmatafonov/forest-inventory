@@ -1,5 +1,5 @@
-from repository.inventory_repository import InventoryRepository
-from service.text_analyzer import TextAnalyzer
+from lib.repository.inventory_repository import InventoryRepository
+from lib.service.text_analyzer import TextAnalyzer
 
 
 class Processor:

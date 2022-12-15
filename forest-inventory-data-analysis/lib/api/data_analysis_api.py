@@ -4,8 +4,8 @@ from flask import jsonify
 from flask_api import status
 from flask_restful import Resource, reqparse, abort
 
-from repository.inventory_repository import InventoryRepository
-from service.processor import Processor
+from lib.repository.inventory_repository import InventoryRepository
+from lib.service.processor import Processor
 
 parser = reqparse.RequestParser()
 parser.add_argument("text")
