@@ -1,4 +1,5 @@
 import logging
+import os
 
 from flask import Flask
 from flask_cors import CORS
@@ -22,4 +23,4 @@ logging.info(config["POSTGRES_URI"])
 
 if __name__ == "__main__":
     from waitress import serve
-    serve(app, host="0.0.0.0", port=8081)
+    serve(app, host="0.0.0.0", port=os.environ["PORT"] if "PORT" in os.environ else 8081)
